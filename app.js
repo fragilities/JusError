@@ -3,7 +3,8 @@
 const express = require('express')
 const path = require('path');
 const app = express();
-const indexRouter = require('./routes/index');
+// const indexRouter = require('./routes/index');
+const JuiceRouter = require('./routes/JuiceRouter')
 const PORT = process.env.PORT || 3000;
 
 const hash = require("./helpers/hashPassword");
@@ -15,7 +16,9 @@ app.set('view engine', 'ejs');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/', indexRouter);
+// app.use('/', indexRouter);
+app.use('/juice', JuiceRouter);
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, ()=>{

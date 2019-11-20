@@ -12,3 +12,7 @@ router.get('/edit/:id', JuiceController.editPage)
 router.post('/edit/:id', JuiceController.edit)
 
 router.get('/delete/:id', JuiceController.delete)
+
+router.get('/test', JuiceController.test)
+
+module.exports = router

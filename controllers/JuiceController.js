@@ -57,6 +57,10 @@ class JuiceController {
     .then(() => res.redirect(`/juice?success=Resep jus ${tempJuice.name} telah berhasil dihapus`))
     .catch(err => res.redirect(`/juice?error=${err.message}`))
   }
+
+  static test(req, res) {
+    res.render('juice/all')
+  }
 }
 
 module.exports = JuiceController
