@@ -21,7 +21,7 @@ class JuiceController {
     if(req.query.error) messages.error = req.query.error
 
     Ingredient.findAll()
-    .then(ingredients => res.render('juice/add', {ingredients, messages}))
+    .then(ingredients => res.render('juice/form', {ingredients, messages}))
     .catch(err => res.send(err.message))
   }
 
@@ -75,15 +75,21 @@ class JuiceController {
     const messages = {}
     if(req.query.error) messages.error = req.query.error
 
-    let tempJuice
+    let juice
+    let ingredients
 
     Juice.findByPk({where: {id: req.params.id}})
-    .then(juice => {
+    .then(tempJuice => {
 
-      tempJuice = juice
+      juice = tempJuice
       return Ingredient.findAll()
     })
-    .then(ingredients => res.render('juiceEdit', {tempJuice, ingredients, messages}))
+    .then(tempIngredients => {
+
+      ingredients = tempIngredients
+      return IngredientJuice.findAll({where: {JuiceId: tempJuice.id}})
+    })
+    .then(ingredientJuices => res.render('juice/form', {juice, ingredients, ingredientJuices, messages}))
     .catch(err => res.redirect(`/juice?error=${err.message}`))
   }
 

@@ -1,0 +1,9 @@
+/* utility */
+
+#msgBox .error {
+  color: red
+}
+
+#msgBox .success {
+  color: blue
+}
