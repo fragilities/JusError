@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   
   Ingredient.init({
     name: DataTypes.STRING,
-    calories: DataTypes.REAL,
+    calorie: DataTypes.REAL,
     carbohydrates: DataTypes.REAL,
     protein: DataTypes.REAL,
     fat: DataTypes.REAL,

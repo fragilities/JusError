@@ -4,8 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class Juice extends Model {}
 
   Juice.init({
-    name: DataTypes.STRING,
-    rating: DataTypes.INTEGER
+    name: DataTypes.STRING
   }, {sequelize})
 
   Juice.associate = function(models) {
