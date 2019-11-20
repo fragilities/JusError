@@ -9,7 +9,7 @@ class UserController {
   }
 
   static register(req, res) { //from register page to user page
-    return User.create({
+    User.create({
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       email: req.body.email,
@@ -24,13 +24,13 @@ class UserController {
   }
 
   static viewEdit(req, res) {
-    return User.findOne({where: {id: req.params.id}})
+    User.findOne({where: {id: req.params.id}})
       .then(user => {res.render('userEdit', {user})}) //user edit page
       .catch(err => {res.send("Error : " + err.message)});
   }
   
   static edit(req,res) {
-    return User.update({
+    User.update({
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       email: req.body.email,

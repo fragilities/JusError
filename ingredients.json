@@ -1,133 +1,23 @@
 [
   {
-   "name": "Apple",
-   "nutritions": {
-        "carbohydrates": 11.4,
-        "protein": 0.3,
-        "fat": 0.4,
-        "calories": 52,
-        "sugar": 10.3
-    }
+    "name": "Apple",
+    "calories": 52,
+    "carbohydrates": 13.8,
+    "protein": 0.3,
+    "fat": 0.2
   },
   {
-    "name": "Apple",
-    "nutritions": {
-         "carbohydrates": 11.4,
-         "protein": 0.3,
-         "fat": 0.4,
-         "calories": 52,
-         "sugar": 10.3
-     }
-   },
-   {
-    "name": "Apple",
-    "nutritions": {
-         "carbohydrates": 11.4,
-         "protein": 0.3,
-         "fat": 0.4,
-         "calories": 52,
-         "sugar": 10.3
-     }
-   },
-   {
-    "name": "Apple",
-    "nutritions": {
-         "carbohydrates": 11.4,
-         "protein": 0.3,
-         "fat": 0.4,
-         "calories": 52,
-         "sugar": 10.3
-     }
-   },
-   {
-    "name": "Apple",
-    "nutritions": {
-         "carbohydrates": 11.4,
-         "protein": 0.3,
-         "fat": 0.4,
-         "calories": 52,
-         "sugar": 10.3
-     }
-   },
-   {
-    "name": "Apple",
-    "nutritions": {
-         "carbohydrates": 11.4,
-         "protein": 0.3,
-         "fat": 0.4,
-         "calories": 52,
-         "sugar": 10.3
-     }
-   },
-   {
-    "name": "Apple",
-    "nutritions": {
-         "carbohydrates": 11.4,
-         "protein": 0.3,
-         "fat": 0.4,
-         "calories": 52,
-         "sugar": 10.3
-     }
-   },
-   {
-    "name": "Apple",
-    "nutritions": {
-         "carbohydrates": 11.4,
-         "protein": 0.3,
-         "fat": 0.4,
-         "calories": 52,
-         "sugar": 10.3
-     }
-   },
-   {
-    "name": "Apple",
-    "nutritions": {
-         "carbohydrates": 11.4,
-         "protein": 0.3,
-         "fat": 0.4,
-         "calories": 52,
-         "sugar": 10.3
-     }
-   },
-
-   {
-    "name": "Apple",
-    "nutritions": {
-         "carbohydrates": 11.4,
-         "protein": 0.3,
-         "fat": 0.4,
-         "calories": 52,
-         "sugar": 10.3
-     }
-   },
-   {
-    "name": "Apple",
-    "nutritions": {
-         "carbohydrates": 11.4,
-         "protein": 0.3,
-         "fat": 0.4,
-         "calories": 52,
-         "sugar": 10.3
-     }
-   },
-   {
-    "name": "Apple",
-    "nutritions": {
-         "carbohydrates": 11.4,
-         "protein": 0.3,
-         "fat": 0.4,
-         "calories": 52,
-         "sugar": 10.3
-     }
-   },
-   {
-    "name": "Apple",
-    "nutritions": {
-         "carbohydrates": 11.4,
-         "protein": 0.3,
-         "fat": 0.4,
-         "calories": 52,
-         "sugar": 10.3
-     }
-   }
+    "name": "Apricot",
+    "calories": 48,
+    "carbohydrates": 11.2,
+    "protein": 1.4,
+    "fat": 0.4
+  },
+  {
+    "name": "Blackberry",
+    "calories": 43,
+    "carbohydrates": 10.2,
+    "protein": 1.4,
+    "fat": 0.5
+  }
 ]
