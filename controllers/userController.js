@@ -5,7 +5,7 @@ const User = require('../models').User;
 class UserController {
   
   static viewRegister(req, res) { //from home to register page
-    res.render('register') //register page: register
+    res.render('user/register') //register page: register
   }
 
   static register(req, res) { //from register page to user page
@@ -19,13 +19,13 @@ class UserController {
       height: req.body.height,
       exercise_level: req.body.exercise_level,
     })
-    .then(data => {res.render('user', {data})}) //user page: edit, delete
+    .then(data => {res.render('user/user', {data})}) //user page: edit, delete
     .catch(err => {res.send(err.message)});
   }
 
   static viewEdit(req, res) {
     User.findOne({where: {id: req.params.id}})
-      .then(user => {res.render('userEdit', {user})}) //user edit page
+      .then(user => {res.render('user/userEdit', {user})}) //user edit page
       .catch(err => {res.send("Error : " + err.message)});
   }
   
@@ -41,7 +41,7 @@ class UserController {
       exercise_level: req.body.exercise_level,
     })
     .then((data) => {
-      res.redirect('/user')
+      res.redirect('user/user')
     })
     .catch(err => {
       res.send("Error : " + err.message);
