@@ -1,4 +1,22 @@
 <%- include('partials/head') %>
 
+<h1>Juices</h1>
+
+<a href="/juice/add"><h2>Add juice...</h2></a>
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>Juice Name</th>
+    <th>Ingredients</th>
+  </tr>
+  <% for(let i in juices) { %>
+  <tr>
+    <td><%= juices[i].id %></td>
+    <td><%= juices[i].name %></td>
+    <td><% for(let j in juices[i].Ingredients) { %> <%= juices[i].Ingredients[j].name %> <% } %></td>
+  </tr>
+  <% } %>
+</table>
 
 <%- include('partials/foot') %>
