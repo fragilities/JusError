@@ -11,7 +11,7 @@ module.exports = {
     */
     return Promise.all([
       queryInterface.addColumn('Ingredients', 'carbohydrates', Sequelize.REAL),
-      queryInterface.addColumn('Ingredients', 'protein', Sequelize.real),
+      queryInterface.addColumn('Ingredients', 'protein', Sequelize.REAL),
       queryInterface.addColumn('Ingredients', 'fat', Sequelize.REAL)
     ])
   },

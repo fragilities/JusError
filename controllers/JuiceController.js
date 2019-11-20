@@ -1,4 +1,6 @@
 const Juice = require('../models').Juice
+const Ingredient = require('../models').Ingredient
+const UserJuice = require('../models').UserJuice
 
 class JuiceController {
 
@@ -8,7 +10,7 @@ class JuiceController {
     if(req.query.error) messages.error = req.query.error
     if(req.query.success) messages.success = req.query.success
 
-    Juice.findAll()
+    Juice.findAll({include: Ingredient})
     .then(juices => res.render('juice/all', {juices, messages}))
     .catch(err => res.send(err))
   }
