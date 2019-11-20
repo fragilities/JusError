@@ -3,16 +3,18 @@
 const router = require('express').Router();
 const UserController = require('../controllers/userController');
 
-router.get('/register', UserController.viewRegister);
-router.post('/register', UserController.register);
+router.get('/', UserController.viewAll); //done
 
-router.get('/user_edit/:id', UserController.viewEdit);
-router.post('/user_edit/:id', UserController.edit);
-
-router.get('/user_delete/:id', UserController.remove);
-
-router.get('/login', UserController.viewLogin);
+router.get('/login', UserController.viewLogin); //done
 router.post('/login', UserController.login);
+
+router.get('/register', UserController.viewRegister); //done
+router.post('/register', UserController.register); //done
+
+router.get('/edit/:id', UserController.viewEdit);
+router.post('/edit/:id', UserController.edit);
+
+router.get('/delete/:id', UserController.remove);
 
 router.get('/logout', UserController.logout);
 

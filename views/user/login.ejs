@@ -1,0 +1,18 @@
+<%- include('../partials/head') %>
+
+<h1>LOG IN</h1>
+
+<% if (data) { %>
+  <%= %>
+<% } %>
+<form action="/user/login" method="post">
+  Email:<br>
+  <input type="text" name="email" value = mickey@mouse.com>
+  <br>
+  Password:<br>
+  <input type="text" name="password" value="1234">
+  <br><br>
+  <input type="submit" value="Submit">
+</form> 
+
+<%- include('../partials/foot') %>

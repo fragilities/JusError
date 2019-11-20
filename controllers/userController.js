@@ -4,6 +4,18 @@ const User = require('../models').User;
 
 class UserController {
   
+  static viewAll(req, res) {
+    res.render('user/all')
+  }
+
+  static viewLogin(req, res) {
+    res.render('user/login') 
+  }
+
+  static login(req, res) {
+     
+  }
+
   static viewRegister(req, res) { //from home to register page
     res.render('user/register') //register page: register
   }
@@ -19,7 +31,7 @@ class UserController {
       height: req.body.height,
       exercise_level: req.body.exercise_level,
     })
-    .then(data => {res.render('user/user', {data})}) //user page: edit, delete
+    .then(data => {res.render('user/login', {data})})
     .catch(err => {res.send(err.message)});
   }
 
@@ -60,14 +72,6 @@ class UserController {
     .catch(err => {
       res.send(err.message);
     });
-  }
-
-  static viewLogin(req, res) {
-    
-  }
-
-  static login(req, res) {
-     
   }
 
   static logout(req, res) {

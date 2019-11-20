@@ -1,4 +1,7 @@
 'use strict';
+
+const hash = require("../helpers/hashPassword");
+
 module.exports = (sequelize, DataTypes) => {
   
   const Model = sequelize.Sequelize.Model;
@@ -22,9 +25,9 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Please input valid email address'
         },
         isUnique: (value, next) => {
-          Student.findOne({where: {email: value}})
-            .then((student) => {INTEGER
-              if (student) {
+          User.findOne({where: {email: value}})
+            .then((user) => {
+              if (user) {
                 return next('Email already in use!');
               } else {
                 return next();
@@ -41,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
     age: DataTypes.INTEGER,
     weight: DataTypes.INTEGER,
     height: DataTypes.INTEGER,
+    loggedIn: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     exercise_level: DataTypes.INTEGER,
     createdAt: new Date(),
     updatedAt: new Date()
@@ -58,10 +65,11 @@ module.exports = (sequelize, DataTypes) => {
       }
       user.secret = generateSecret(10);
       user.password = hash(user.password, user.secret);
-    },
-    beforeValidate: (user, options) => {
-      user.password = hash(user.password, user.secret);
     }
+    // ,
+    // beforeValidate: (user, options) => {
+    //   user.password = hash(user.password, user.secret);
+    // }
   },
     sequelize });
   User.associate = function(models) {
