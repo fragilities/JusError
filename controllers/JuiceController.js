@@ -78,7 +78,7 @@ class JuiceController {
     let juice
     let ingredients
 
-    Juice.findByPk({where: {id: req.params.id}})
+    Juice.findByPk(req.params.id)
     .then(tempJuice => {
 
       juice = tempJuice
@@ -87,7 +87,7 @@ class JuiceController {
     .then(tempIngredients => {
 
       ingredients = tempIngredients
-      return IngredientJuice.findAll({where: {JuiceId: tempJuice.id}})
+      return IngredientJuice.findAll({where: {JuiceId: juice.id}})
     })
     .then(ingredientJuices => res.render('juice/form', {juice, ingredients, ingredientJuices, messages}))
     .catch(err => res.redirect(`/juice?error=${err.message}`))
@@ -95,6 +95,8 @@ class JuiceController {
 
   static edit(req, res) {
     
+    
+
     Juice.update(req.body, {where: {id: req.params.id}})
     .then(() => res.redirect(`/juice?success=Resep jus telah berhasil diubah`))
     .catch(err => res.redirect(`/juice/edit/${req.params.id}?error=${err.message}`))
