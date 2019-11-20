@@ -9,7 +9,7 @@ class JuiceController {
     if(req.query.success) messages.success = req.query.success
 
     Juice.findAll()
-    .then(juices => res.render('juiceAll', {juices, messages}))
+    .then(juices => res.render('juice/all', {juices, messages}))
     .catch(err => res.send(err))
   }
 
