@@ -27,6 +27,8 @@ class JuiceController {
 
   static add(req, res) {
 
+    // load data
+
     let ingredients = []
     
     for(let key in req.body) {
@@ -41,6 +43,16 @@ class JuiceController {
       }
     }
 
+    // validation
+
+    if(ingredients.length == 0) res.redirect(`/juice/add?error=Pilih buah minimal satu`)
+    
+    for(let i in ingredients) {
+      if(ingredients[i][1] == "" || ingredients[i][1] == 0) res.redirect(`/juice/add?error=Ada amount dari buah yang dipilih yang masih kosong`)
+    }
+
+    // create
+
     Juice.create(req.body)
     .then(juice => {
 
@@ -51,7 +63,7 @@ class JuiceController {
         JuiceId: juice.id,
         amount: ingredients[i][1]
       }))
-      
+
       return Promise.all(conjunctionPromises)
     })
     .then(() => res.redirect(`/juice?success=Resep jus telah berhasil dibuat`))
