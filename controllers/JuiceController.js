@@ -20,6 +20,7 @@ class JuiceController {
   static addPage(req, res) {
     const messages = {}
     if(req.query.error) messages.error = req.query.error
+    
 
     Ingredient.findAll()
     .then(ingredients => res.render('juice/form', {ingredients, messages}))
@@ -85,62 +86,59 @@ class JuiceController {
   static edit(req, res) {
     
     let ingredients = Helper.insertIngredients(req.body)
+    let tempJuice
 
     if(ingredients.length == 0) res.redirect(`/juice/add?error=Pilih buah minimal satu`)
 
-    Juice.update(req.body, {where: {id: req.params.id}})
+    Juice.update(req.body, {returning: true, where: {id: req.params.id}})
     .then(juice => {
 
-      const promises = []
-
-      // for(let i in ingredients) conjunctionPromises.push(IngredientJuice.create({
-      //   IngredientId: ingredients[i][0],
-      //   JuiceId: juice.id,
-      //   amount: ingredients[i][1]
-      // }))
-
-      for(let i in ingredients) {
-
-        promises.push(IngredientJuice.findOne({where: {IngredientId: ingredients[i][0]}}))
-        // .then(data => {
-        //   if(data.id) {
-        //     conjunctionPromises.push(IngredientJuice.update({
-        //       amount: ingredients[i][1]
-        //     }, {where: {id: data.id}}))
-        //   }
-        //   else {
-        //     conjunctionPromises.push(IngredientJuice.create())
-        //   }
-        // })
-      }
+      tempJuice = juice[1][0].dataValues
       
-      return Promise.all(promises)
+      return IngredientJuice.findAll({where: {JuiceId: tempJuice.id}})
     })
     .then(ingredientJuices => {
 
       let promises = []
 
-      let ids = ingredients.map(ingredient => ingredient[0])
-      let idjs = ingredientJuices.map(ingredient => ingredient.IngredientId)
-      
+      let ingredientIdsFromInput = ingredients.map(ingredient => ingredient[0])
+      let ingredientIdsFromDb = ingredientJuices.map(ingredient => ingredient.IngredientId)
 
-      // delete, update, insert
+      for(let i in ingredientIdsFromInput) {
 
-      for(let i in ids) {
-        // if(idsj.include(i))
+        let tempIngredientId = ingredientIdsFromInput[i]
+
+        // include ? update : create
+        if(ingredientIdsFromDb.includes(tempIngredientId)) {
+
+          promises.push(IngredientJuice.update({
+            amount: ingredients[i][1]
+          }, {where: {IngredientId: tempIngredientId, JuiceId: tempJuice.id}}))
+        }
+        else {
+
+          promises.push(IngredientJuice.create({
+            IngredientId: tempIngredientId,
+            JuiceId: tempJuice.id,
+            amount: ingredients[i][1]
+          }))
+        }
       }
 
-      // if(ids[i].indexOf(ids2))
+      // this loop is special for delete
+      for(let i in ingredientIdsFromDb) {
 
-      // for(let i in ingredients) {
-      //   if(ingredientJuices[i].id) {
-      //     IngredientJuice.update({amount: ing})
-      //   }
-
-      //   if(ingredient)
-      // }
-
+        let tempIngredientId = ingredientIdsFromDb[i]
+        
+        if(!ingredientIdsFromInput.includes(tempIngredientId)) {
+          promises.push(IngredientJuice.destroy({where: {
+            IngredientId: tempIngredientId,
+            JuiceId: tempJuice.id
+          }}))
+        }
+      }
       
+      return Promise.all(promises)
     })
     .then(() => res.redirect(`/juice?success=Resep jus telah berhasil diubah`))
     .catch(err => res.redirect(`/juice/edit/${req.params.id}?error=${err.message}`))
@@ -149,10 +147,9 @@ class JuiceController {
   static delete(req, res) {
     let tempJuice
 
-    Juice.findByPk({where: {id: req.params.id}})
-    .then(juice => {
-
-      tempJuice = juice
+    IngredientJuice.destroy({where: {JuiceId: req.params.id}})
+    .then(() => {
+      
       return Juice.destroy({where: {id: req.params.id}})
     })
     .then(() => res.redirect(`/juice?success=Resep jus ${tempJuice.name} telah berhasil dihapus`))
@@ -160,8 +157,12 @@ class JuiceController {
   }
 
   static test(req, res) {
-    res.render('juice/all')
+    IngredientJuice.findAll()
+    .then(data => res.send(data))
+    .catch(err => console.log(err))
   }
+
+
 }
 
 module.exports = JuiceController

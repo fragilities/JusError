@@ -2,7 +2,7 @@
 <!-- <%= messages.error %> -->
 <form method="post" action="">
   <label>Juice name
-    <input type="name" name="name" <% if(juice.name) { %> value="<%=juice.name%>" <% } %> >
+  <input type="name" name="name" value="<%= typeof juice != 'undefined' ? juice.name : '' %>" >
   </label>
   <br>
   <hr>
@@ -19,7 +19,7 @@
   %>
     <%=ingredients[i].name%><br>
     <%
-      if(ingredientJuices) {
+      if(typeof ingredientJuices != 'undefined') {
         const ingredientz = Object.values(ingredientJuices);
         const ids = ingredientz.map(ingredient => ingredient.IngredientId)
         const amounts = ingredientz.map(ingredient => ingredient.amount)
