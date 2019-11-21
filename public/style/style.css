@@ -86,6 +86,7 @@ main {
 
 #ingredientBox .ingredientCard {
   padding: 1.25rem;
+  /* margin: 1rem; */
 
   display: flex;
   flex-direction: column;
@@ -110,6 +111,49 @@ main {
 #ingredientBox li a {
   color: lightcoral;
   font-size: 1.1rem;
+}
+
+/* detail */
+
+/* .detail-container {
+  display: flex;
+  flex-direction: column;
+} */
+
+.detail-container h2,
+.detail-container h3 {
+  text-align: center;
+  padding: 0.25rem;
+}
+
+#nutrition {
+  display: flex;
+  justify-content: space-around;
+
+  /* border: 1px dotted coral; */
+}
+
+/* container canvas harus position: relative buat resize */
+#nutritionCanvas {
+  margin: 1rem;
+
+  position: relative;
+  height: 33vh;
+  width: 33vw;
+}
+
+#nutritionData {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: center;
+  padding: 1.5rem;
+  /* border: 1px black dotted; */
+}
+
+#nutritionData span {
+  padding: 1rem;
+  font-size: 1.25rem;
 }
 
 

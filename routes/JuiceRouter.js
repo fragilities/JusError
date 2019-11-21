@@ -5,6 +5,8 @@ const JuiceController = require('../controllers/JuiceController')
 
 router.get('/', JuiceController.all)
 
+router.get('/:id', JuiceController.detail)
+
 router.get('/add', JuiceController.addPage)
 router.post('/add', JuiceController.add)
 

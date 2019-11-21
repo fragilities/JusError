@@ -18,7 +18,10 @@ class JuiceController {
   }
 
   static addPage(req, res) {
-
+    // console.log('-----------------')
+    // console.log(req.session.userData.id)
+    // console.log('-----------------')
+    // return
     if(!req.session.userData.id) res.redirect(`/user?error=Belum login, tidak boleh add juice!`)
 
     const messages = {}
@@ -26,7 +29,7 @@ class JuiceController {
     
 
     Ingredient.findAll()
-    .then(ingredients => res.render('juice/form', {ingredients, messages}))
+    .then(ingredients => res.render('juice/add', {ingredients, messages}))
     .catch(err => res.send(err.message))
   }
 
@@ -187,10 +190,47 @@ class JuiceController {
     .catch(err => res.redirect(`/juice?error=${err.message}`))
   }
 
+  static detail(req, res) {
+    // validasi user
+
+    // if(!req.session.userData.id) res.redirect(`/user?error=Belum login, tidak boleh add juice!`)
+
+    Juice.findByPk(3, {include: Ingredient})
+    .then(juice => {
+
+      let nutrition = {
+        calorie: 0,
+        carbohydrates: 0,
+        protein: 0,
+        fat: 0
+      }
+
+      for(let i in juice.Ingredients) {
+        let amountMultiplier = juice.Ingredients[i].IngredientJuice.amount/100
+
+        nutrition.calorie += juice.Ingredients[i].calorie * amountMultiplier
+        nutrition.carbohydrates += juice.Ingredients[i].carbohydrates * amountMultiplier
+        nutrition.protein += juice.Ingredients[i].protein * amountMultiplier
+        nutrition.fat += juice.Ingredients[i].fat * amountMultiplier
+      }
+
+      nutrition.calorie = +nutrition.calorie.toFixed(2)
+      nutrition.carbohydrates = +nutrition.carbohydrates.toFixed(2)
+      nutrition.protein = +nutrition.protein.toFixed(2)
+      nutrition.fat = +nutrition.fat.toFixed(2)
+
+      res.render('juice/detail', {juice, nutrition})
+    })
+    .catch(err => res.redirect(`/juice?error=${err.message}`))
+  }
+
   static test(req, res) {
-    IngredientJuice.findAll()
-    .then(data => res.send(data))
-    .catch(err => console.log(err))
+    // IngredientJuice.findAll()
+    // .then(data => res.send(data))
+    // .catch(err => console.log(err))
+    Juice.findByPk(3, {include: Ingredient})
+    .then(juice => res.send(juice))
+    .catch(err => res.redirect(`/juice?error=${err.message}`))
   }
 
 
