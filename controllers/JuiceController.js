@@ -19,7 +19,7 @@ class JuiceController {
 
   static addPage(req, res) {
 
-    if(!req.session.userData.id) res.redirect(`/juice?error=Belum login, tidak boleh add juice!`)
+    if(!req.session.userData.id) res.redirect(`/user?error=Belum login, tidak boleh add juice!`)
 
     const messages = {}
     if(req.query.error) messages.error = req.query.error
@@ -38,7 +38,7 @@ class JuiceController {
 
     // validation
 
-    if(!req.session.userData.id) res.redirect(`/juice?error=Belum login, tidak boleh add juice!`)
+    if(!req.session.userData.id) res.redirect(`/user?error=Belum login, tidak boleh add juice!`)
 
     if(ingredients.length == 0) res.redirect(`/juice/add?error=Pilih buah minimal satu`)
     
@@ -72,7 +72,7 @@ class JuiceController {
 
   static editPage(req, res) {
 
-    if(!req.session.userData.id) res.redirect(`/juice?error=Belum login, tidak boleh add juice!`)
+    if(!req.session.userData.id) res.redirect(`/user?error=Belum login, tidak boleh edit juice!`)
 
     const messages = {}
     if(req.query.error) messages.error = req.query.error
@@ -102,7 +102,7 @@ class JuiceController {
     
     // validation
 
-    if(!req.session.userData.id) res.redirect(`/juice?error=Belum login, tidak boleh add juice!`)
+    if(!req.session.userData.id) res.redirect(`/user?error=Belum login, tidak boleh edit juice!`)
 
     if(ingredients.length == 0) res.redirect(`/juice/add?error=Pilih buah minimal satu`)
 
@@ -164,7 +164,7 @@ class JuiceController {
 
   static delete(req, res) {
 
-    if(!req.session.userData.id) res.redirect(`/juice?error=Belum login, tidak boleh add juice!`)
+    if(!req.session.userData.id) res.redirect(`/user?error=Belum login, tidak boleh menghapus juice!`)
 
     let tempJuice
 
