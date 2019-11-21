@@ -23,26 +23,27 @@ class UserController {
   }
 
   static login(req, res) {
-    let data;
-    User.findOne({where: {email: req.body.email}})
-    .then((user) => {
-      if (!user) {
-        res.send('User not found')
-      } else if (user.loggedIn === true) {
-        res.send('User already logged in')
-      } else if (!user.loggedIn && bcrypt.compareSync(req.body.password, user.password)) {
-        data = user;
-        User.update({loggedIn: true}, {where: {email: req.body.email}})
-      } else {
-        res.send('Wrong password')
-      }
-    })
-    .then((user) => {
-      res.render('user/profile', {data})
-    })
-    .catch((err) => {
-      res.send("Error : " + err.message)
-    })
+    if (req.body.email && req.body.password) {
+      User.findOne({where: {
+        email: req.body.email
+      }})
+      .then((data) => {
+        if (bcrypt.compareSync(req.body.password, data.password)) {
+          req.session.userData = {
+            loggedin: true,
+            username: data.email
+          }
+          res.render('user/profile', {data})
+        } else {
+          res.send('Incorrect Username and/or Password!')
+        }
+      })
+      .catch((err) => {
+        res.send("Error : " + err.message)
+      })
+    } else {
+      res.send('Please input email and password')
+    }
   }
 
   static viewRegister(req, res) {
@@ -99,13 +100,8 @@ class UserController {
   }
 
   static logout(req, res) {
-    User.update({loggedIn: false}, {where: {id: req.params.id}})
-    .then(() => {
-      res.redirect('/');
-    })
-    .then(() => {
-      res.send("Error : " + err.message);
-    })
+    req.session.userData = null;
+    res.redirect('/')
   }
 
 }
