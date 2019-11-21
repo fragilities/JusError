@@ -3,8 +3,7 @@
 const router = require('express').Router();
 const UserController = require('../controllers/userController');
 
-router.get('/', UserController.viewAll);
-router.get('/profile/:id', UserController.viewOne);
+router.get('/', UserController.home);
 
 router.get('/register', UserController.viewRegister); 
 router.post('/register', UserController.register); 
@@ -19,6 +18,8 @@ router.use(function(req, res, next) {
     res.redirect('/')
   }
 })
+
+router.get('/:id', UserController.viewProfile);
 
 router.get('/edit/:id', UserController.viewEdit);
 router.post('/edit/:id', UserController.edit);

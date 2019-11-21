@@ -1,18 +1,29 @@
 <%- include('../partials/head') %>
 
-  <h1>USER DATA</h1>
+  <h1>PROFILE</h1>
 
     <p>First Name: <%= data.first_name %></p>
     <p>Last Name: <%= data.last_name %></p>
     <p>Email: <%= data.email %></p>
-    <p>Weight: <%= data.height %></p>
-    <p>Height: <%= data.weight %></p>
-    <p>Exercise Level: <%= data.exercise_level %></p>
   
+    <br>
   <ul>
     <li><a href="/user/logout/<%= data.id %>">Log Out</a></li>
     <li><a href="/user/edit/<%= data.id %>">Edit</a></li>
     <li><a href="/user/delete/<%= data.id %>">Delete</a></li>
   </ul>
+
+  <h1>JUICE LIST</h1>
+  <% if (typeof data.Juices[0] != undefined) { %>
+  <table style="width:100%">
+      <% for (let i = 0; i < data.Juices.length; i++) { %>
+      <tr>
+        <td> <%= data.Juices[i].name %> </td>
+        <td><a href="/juice/edit/<%=data.Juices[i].id%>">Edit</a></td>
+        <td><a href="/juice/delete/<%=data.Juices[i].id%>">Delete</a></td>
+      </tr>
+      <% } %>
+  </table>
+  <% } %>
 
 <%- include('../partials/foot') %>

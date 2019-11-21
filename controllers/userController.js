@@ -1,21 +1,33 @@
 'use strict'
 
 const User = require('../models').User;
+const Juice = require('../models').Juice;
 const bcrypt = require('bcrypt');
 
 class UserController {
   
-  static viewAll(req, res) {
-    res.render('user/all')
+  static home(req, res) {
+    if (req.session.userData) {
+      res.redirect(`/user/${req.session.userData.id}`)
+    } else {
+      res.render('user/home')
+    }
   }
 
-  static viewOne(req, res) {
-    let id = req.params.id;
-    User.findOne({where: {id}})
-    .then((data) => {
-      res.render('user/profile', {data})
+  static viewRegister(req, res) {
+    res.render('user/register')
+  }
+
+  static register(req, res) {
+    let msg = "Registration successfull!"
+    User.create({
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      email: req.body.email,
+      password: req.body.password
     })
-    .catch((err) => res.send("Error : " + err.message));
+    .then(data => {res.render('user/home', {data})})
+    .catch(err => {res.send("Error : " + err.message)});
   }
 
   static viewLogin(req, res) {
@@ -31,9 +43,10 @@ class UserController {
         if (bcrypt.compareSync(req.body.password, data.password)) {
           req.session.userData = {
             loggedin: true,
-            username: data.email
+            username: data.email,
+            id: data.id
           }
-          res.render('user/profile', {data})
+          res.redirect(`/user/${data.id}`)
         } else {
           res.send('Incorrect Username and/or Password!')
         }
@@ -46,23 +59,12 @@ class UserController {
     }
   }
 
-  static viewRegister(req, res) {
-    res.render('user/register')
-  }
-
-  static register(req, res) {
-    User.create({
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      email: req.body.email,
-      password: req.body.password,
-      age: req.body.age,
-      weight: req.body.weight,
-      height: req.body.height,
-      exercise_level: req.body.exercise_level,
+  static viewProfile(req, res) {
+    User.findByPk(req.params.id, {include: Juice})
+    .then((data) => {
+      res.render('user/profile', {data})
     })
-    .then(data => {res.render('user/profile', {data})})
-    .catch(err => {res.send("Error : " + err.message)});
+    .catch((err) => res.send("Error : " + err.message));
   }
 
   static viewEdit(req, res) {
@@ -72,17 +74,14 @@ class UserController {
   }
   
   static edit(req,res) {
+    let data = parseInt(req.body.id);
     User.update({
       first_name: req.body.first_name,
       last_name: req.body.last_name,
-      email: req.body.email,
-      age: req.body.age,
-      weight: req.body.weight,
-      height: req.body.height,
-      exercise_level: req.body.exercise_level,
+      email: req.body.email
     }, {where: {id: req.body.id}})
-    .then((data) => {
-      res.redirect('/user/profile/' + req.body.id)
+    .then(() => {
+      res.redirect(`/user/${data.id}`)
     })
     .catch(err => {
       res.send("Error : " + err.message);

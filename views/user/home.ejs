@@ -1,0 +1,15 @@
+<%- include('../partials/head') %>
+
+<% if (typeof data != 'undefined') { %>
+  <h1>Welcome, <%= data.getFullName() %>. Account successfully created. Please log in to view your profile.</h1>
+<% } else { %>
+  <h1>Please log in or register first to access user page</h1>
+<% } %>
+
+<ul>
+  <li><a href="user/login">Log In</a></li>
+  <li><a href="user/register">Sign Up</a></li>
+</ul>
+
+
+<%- include('../partials/foot') %>

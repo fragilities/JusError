@@ -9,6 +9,9 @@ const UserRouter = require('./routes/user')
 const JuiceRouter = require('./routes/JuiceRouter')
 const PORT = process.env.PORT || 3000;
 const session = require('express-session');
+const converter = require('./helpers/converter')
+
+app.locals.converter = converter;
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
