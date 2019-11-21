@@ -1,0 +1,36 @@
+<%- include('../partials/head', {messages}) %>
+<!-- <%= messages.error %> -->
+<form method="post" action="">
+  <label>Juice name
+    <input type="name" name="name" <% if(juice.name) { %> value="<%=juice.name%>" <% } %> >
+  </label>
+  <br>
+  <hr>
+  <br>
+  <input type="submit">
+  <br>
+  <br>
+  <hr>
+  <br>
+  <%
+    let exist = false
+
+    for(let i in ingredients) {
+  %>
+    <%=ingredients[i].name%><br>
+    <%
+      if(ingredientJuices) {
+        const ingredientz = Object.values(ingredientJuices);
+        const ids = ingredientz.map(ingredient => ingredient.IngredientId)
+        const amounts = ingredientz.map(ingredient => ingredient.amount)
+    %>
+    
+    <input type="radio" name="<%=ingredients[i].name%>-radio" value="0" > no | <input type="radio" name="<%=ingredients[i].name%>-radio" value="1" <%= ids.indexOf(ingredients[i].id) != -1 ? 'checked' : '' %> > yes | amount <input type="text" name="<%=ingredients[i].name%>-amount" value="<%= ids.indexOf(ingredients[i].id) == -1 ? '0' : amounts[ids.indexOf(ingredients[i].id)] %>"> gr<br><br><hr>
+    <input type="hidden" name="<%=ingredients[i].name%>" value="<%=ingredients[i].id%>">
+    <%
+        }
+      }
+    %>
+</form>
+
+<%- include('../partials/foot') %>

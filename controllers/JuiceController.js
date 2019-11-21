@@ -2,6 +2,7 @@ const Juice = require('../models').Juice
 const Ingredient = require('../models').Ingredient
 const UserJuice = require('../models').UserJuice
 const IngredientJuice = require('../models').IngredientJuice
+const Helper = require('../helpers')
 
 class JuiceController {
 
@@ -21,7 +22,7 @@ class JuiceController {
     if(req.query.error) messages.error = req.query.error
 
     Ingredient.findAll()
-    .then(ingredients => res.render('juice/add', {ingredients, messages}))
+    .then(ingredients => res.render('juice/form', {ingredients, messages}))
     .catch(err => res.send(err.message))
   }
 
@@ -29,19 +30,7 @@ class JuiceController {
 
     // load data
 
-    let ingredients = []
-    
-    for(let key in req.body) {
-      let ingredientTemp = key.split('-')
-      if(ingredientTemp.length > 1) {
-        if(ingredientTemp[1] == 'radio') {
-          if(req.body[key] == 1) {
-            let amountKey = ingredientTemp[0] + '-amount'
-            ingredients.push([req.body[ingredientTemp[0]], req.body[amountKey]])
-          }
-        }
-      }
-    }
+    let ingredients = Helper.insertIngredients(req.body)
 
     // validation
 
@@ -75,21 +64,84 @@ class JuiceController {
     const messages = {}
     if(req.query.error) messages.error = req.query.error
 
-    let tempJuice
+    let juice
+    let ingredients
 
-    Juice.findByPk({where: {id: req.params.id}})
-    .then(juice => {
+    Juice.findByPk(req.params.id)
+    .then(tempJuice => {
 
-      tempJuice = juice
+      juice = tempJuice
       return Ingredient.findAll()
     })
-    .then(ingredients => res.render('juiceEdit', {tempJuice, ingredients, messages}))
+    .then(tempIngredients => {
+
+      ingredients = tempIngredients
+      return IngredientJuice.findAll({where: {JuiceId: juice.id}})
+    })
+    .then(ingredientJuices => res.render('juice/form', {juice, ingredients, ingredientJuices, messages}))
     .catch(err => res.redirect(`/juice?error=${err.message}`))
   }
 
   static edit(req, res) {
     
+    let ingredients = Helper.insertIngredients(req.body)
+
+    if(ingredients.length == 0) res.redirect(`/juice/add?error=Pilih buah minimal satu`)
+
     Juice.update(req.body, {where: {id: req.params.id}})
+    .then(juice => {
+
+      const promises = []
+
+      // for(let i in ingredients) conjunctionPromises.push(IngredientJuice.create({
+      //   IngredientId: ingredients[i][0],
+      //   JuiceId: juice.id,
+      //   amount: ingredients[i][1]
+      // }))
+
+      for(let i in ingredients) {
+
+        promises.push(IngredientJuice.findOne({where: {IngredientId: ingredients[i][0]}}))
+        // .then(data => {
+        //   if(data.id) {
+        //     conjunctionPromises.push(IngredientJuice.update({
+        //       amount: ingredients[i][1]
+        //     }, {where: {id: data.id}}))
+        //   }
+        //   else {
+        //     conjunctionPromises.push(IngredientJuice.create())
+        //   }
+        // })
+      }
+      
+      return Promise.all(promises)
+    })
+    .then(ingredientJuices => {
+
+      let promises = []
+
+      let ids = ingredients.map(ingredient => ingredient[0])
+      let idjs = ingredientJuices.map(ingredient => ingredient.IngredientId)
+      
+
+      // delete, update, insert
+
+      for(let i in ids) {
+        // if(idsj.include(i))
+      }
+
+      // if(ids[i].indexOf(ids2))
+
+      // for(let i in ingredients) {
+      //   if(ingredientJuices[i].id) {
+      //     IngredientJuice.update({amount: ing})
+      //   }
+
+      //   if(ingredient)
+      // }
+
+      
+    })
     .then(() => res.redirect(`/juice?success=Resep jus telah berhasil diubah`))
     .catch(err => res.redirect(`/juice/edit/${req.params.id}?error=${err.message}`))
   }
