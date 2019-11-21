@@ -1,6 +1,6 @@
 'use strict';
 
-const hash = require("../helpers/hashPassword");
+const bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) => {
   
@@ -15,10 +15,17 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   User.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         isEmail: {
           args: true,
@@ -39,7 +46,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    password: DataTypes.STRING,
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }, 
     secret: DataTypes.STRING,
     age: DataTypes.INTEGER,
     weight: DataTypes.INTEGER,
@@ -54,22 +64,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
     beforeCreate: (user, options) => {
-      const generateSecret = (length) => {
-        var result           = '';
-        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var charactersLength = characters.length;
-        for ( var i = 0; i < length; i++ ) {
-           result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-      }
-      user.secret = generateSecret(10);
-      user.password = hash(user.password, user.secret);
+      let hash = bcrypt.hashSync(user.password, 8);
+      user.password = hash
     }
-    // ,
-    // beforeValidate: (user, options) => {
-    //   user.password = hash(user.password, user.secret);
-    // }
   },
     sequelize });
   User.associate = function(models) {
