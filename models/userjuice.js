@@ -5,8 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   
   UserJuice.init({
     UserId: DataTypes.INTEGER,
-    JuiceId: DataTypes.INTEGER,
-    rating: DataTypes.INTEGER
+    JuiceId: DataTypes.INTEGER
   }, {sequelize})
 
   UserJuice.associate = function(models) {

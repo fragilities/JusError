@@ -49,22 +49,13 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false
-    }, 
-    secret: DataTypes.STRING,
-    age: DataTypes.INTEGER,
-    weight: DataTypes.INTEGER,
-    height: DataTypes.INTEGER,
-    loggedIn: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
     },
-    exercise_level: DataTypes.INTEGER,
     createdAt: new Date(),
     updatedAt: new Date()
   }, {
     hooks: {
     beforeCreate: (user, options) => {
-      let hash = bcrypt.hashSync(user.password, 8);
+      let hash = bcrypt.hashSync(user.password, 5);
       user.password = hash
     }
   },
