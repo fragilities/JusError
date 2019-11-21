@@ -83,3 +83,23 @@ main .container a,
 main .container table {
   padding: 1rem 1rem;
 }
+
+#ingredientList {
+  display: flex;
+  
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+
+  border: 1px black dotted;
+}
+
+#ingredientList li {
+  padding: 0.5rem 0.5rem;
+  list-style: none;
+}
+
+#ingredientList #ingredientHeader {
+  display: flex;
+  border: 1px red dotted;
+}
