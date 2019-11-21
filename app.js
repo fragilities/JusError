@@ -9,10 +9,6 @@ const UserRouter = require('./routes/user')
 const JuiceRouter = require('./routes/JuiceRouter')
 const PORT = process.env.PORT || 3000;
 
-const hash = require("./helpers/hashPassword");
-app.locals.hash = hash;
-
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
