@@ -18,6 +18,9 @@ class JuiceController {
   }
 
   static addPage(req, res) {
+
+    if(!req.session.userData.id) res.redirect(`/juice?error=Belum login, tidak boleh add juice!`)
+
     const messages = {}
     if(req.query.error) messages.error = req.query.error
     
@@ -34,6 +37,8 @@ class JuiceController {
     let ingredients = Helper.insertIngredients(req.body)
 
     // validation
+
+    if(!req.session.userData.id) res.redirect(`/juice?error=Belum login, tidak boleh add juice!`)
 
     if(ingredients.length == 0) res.redirect(`/juice/add?error=Pilih buah minimal satu`)
     
@@ -54,6 +59,11 @@ class JuiceController {
         amount: ingredients[i][1]
       }))
 
+      conjunctionPromises.push(UserJuice.create({
+        UserId: req.session.userData.id,
+        JuiceId: juice.id
+      }))
+
       return Promise.all(conjunctionPromises)
     })
     .then(() => res.redirect(`/juice?success=Resep jus telah berhasil dibuat`))
@@ -61,6 +71,8 @@ class JuiceController {
   }
 
   static editPage(req, res) {
+
+    if(!req.session.userData.id) res.redirect(`/juice?error=Belum login, tidak boleh add juice!`)
 
     const messages = {}
     if(req.query.error) messages.error = req.query.error
@@ -87,8 +99,14 @@ class JuiceController {
     
     let ingredients = Helper.insertIngredients(req.body)
     let tempJuice
+    
+    // validation
+
+    if(!req.session.userData.id) res.redirect(`/juice?error=Belum login, tidak boleh add juice!`)
 
     if(ingredients.length == 0) res.redirect(`/juice/add?error=Pilih buah minimal satu`)
+
+    // update
 
     Juice.update(req.body, {returning: true, where: {id: req.params.id}})
     .then(juice => {
@@ -145,11 +163,24 @@ class JuiceController {
   }
 
   static delete(req, res) {
+
+    if(!req.session.userData.id) res.redirect(`/juice?error=Belum login, tidak boleh add juice!`)
+
     let tempJuice
 
-    IngredientJuice.destroy({where: {JuiceId: req.params.id}})
-    .then(() => {
+    Juice.findByPk(req.params.id)
+    .then(juice => {
       
+      tempJuice = juice
+
+      return IngredientJuice.destroy({where: {JuiceId: req.params.id}})
+    })
+    .then(() => {
+
+      return UserJuice.destroy({where: {JuiceId: req.params.id}})
+    })
+    .then(() => {
+
       return Juice.destroy({where: {id: req.params.id}})
     })
     .then(() => res.redirect(`/juice?success=Resep jus ${tempJuice.name} telah berhasil dihapus`))

@@ -31,7 +31,8 @@ class UserController {
         if (bcrypt.compareSync(req.body.password, data.password)) {
           req.session.userData = {
             loggedin: true,
-            username: data.email
+            username: data.email,
+            id: data.id
           }
           res.render('user/profile', {data})
         } else {
