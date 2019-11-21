@@ -2,7 +2,35 @@
 
 <main>
   <div class="container">
-    <ul id="ingredientList">
+    <div id="ingredientBox">
+      <% for(let i in ingredients) { %>
+      <div class="ingredientCard">
+        <div class="cardTop">
+
+          <div class="cardHead">
+            <h3 class="ingredientName"><%= ingredients[i].name %></h3>
+            <span class="calorieText">Calorie: <%= ingredients[i].calorie %></span>
+          </div>
+          <div class="cardBody">
+            <ul>
+              <li><%= ingredients[i].carbohydrates %> g</li>
+              <li><%= ingredients[i].protein %> g</li>
+              <li><%= ingredients[i].carbohydrates %> g</li>
+            </ul>
+          </div>
+        </div>
+        <div class="cardFoot">
+          <h4 class="cardFootTitle">Included in these juices:</h4>
+          <ul>
+            <% for(let j in ingredients[i].Juices) { %>
+              <li><a href="<%=ingredients[i].Juices[j].id%>"><%=ingredients[i].Juices[j].name%></a></li>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+      <% } %>
+    </div>
+    <!-- <ul id="ingredientList">
       <% for(let i in ingredients) { %>
         <li>
           <ul class="ingredientHeader">
@@ -28,7 +56,7 @@
           </ul>
         </li>
       <% } %>
-    </ul>
+    </ul> -->
   </div>
 </main>
 
