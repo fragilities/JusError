@@ -59,27 +59,57 @@ body {
   padding: 0 0.2rem;
 }
 
+.container {
+  width: 80%;
+  /* margin: 0 auto; */
+  /* border: 1px black dotted; */
+}
+
 /* main */
 
 main {
   padding-top: 5rem;
 
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+
+  /* border: 1px black dotted; */
 }
 
-.container {
-  width: 80%;
-  border: 1px red dotted;
-  text-align: center;
+/* ingredientBox */
 
+#ingredientBox {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   justify-content: space-around;
 }
 
-main .container h1,
-main .container a,
-main .container table {
-  padding: 1rem 1rem;
+#ingredientBox .ingredientCard {
+  padding: 1.25rem;
+
+  display: flex;
+  flex-direction: column;
 }
+
+.ingredientCard .cardTop {
+  display: flex;
+  flex-direction: row;
+}
+
+.cardTop .cardHead,
+.cardTop .cardBody {
+  padding: 0.1rem 0.7rem;
+}
+
+#ingredientBox li {
+  list-style: none;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+}
+
+#ingredientBox li a {
+  color: lightcoral;
+  font-size: 1.1rem;
+}
+
+
