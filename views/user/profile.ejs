@@ -2,6 +2,7 @@
 
   <h1>PROFILE</h1>
 
+  
     <p>First Name: <%= data.first_name %></p>
     <p>Last Name: <%= data.last_name %></p>
     <p>Email: <%= data.email %></p>
@@ -13,16 +14,21 @@
     <li><a href="/user/delete/<%= data.id %>">Delete</a></li>
   </ul>
 
-  <h1>JUICE LIST</h1>
+      <table style="width:100%">
+          <tr class="header">
+              <th colspan="100%"><center><%= data.getFullName()%> Recipes</center></th>
+            </tr>
   <% if (typeof data.Juices[0] != undefined) { %>
-  <table style="width:100%">
       <% for (let i = 0; i < data.Juices.length; i++) { %>
       <tr>
-        <td> <%= data.Juices[i].name %> </td>
+        <td colspan="5"> <%= data.Juices[i].name %> </td>
         <td><a href="/juice/edit/<%=data.Juices[i].id%>">Edit</a></td>
         <td><a href="/juice/delete/<%=data.Juices[i].id%>">Delete</a></td>
       </tr>
       <% } %>
+      <tr class="header">
+          <th colspan="100%"><center><a href="/juice/add">Add more juice recipe</center></th>
+        </tr>
   </table>
   <% } %>
 

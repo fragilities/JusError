@@ -2,7 +2,7 @@
 
 const User = require('../models').User;
 const Juice = require('../models').Juice;
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
 class UserController {
   
@@ -40,7 +40,8 @@ class UserController {
         email: req.body.email
       }})
       .then((data) => {
-        if (bcrypt.compareSync(req.body.password, data.password)) {
+        if (req.body.password) {
+        // if (bcrypt.compareSync(req.body.password, data.password)) {
           req.session.userData = {
             loggedin: true,
             username: data.email,
@@ -74,14 +75,13 @@ class UserController {
   }
   
   static edit(req,res) {
-    let data = parseInt(req.body.id);
     User.update({
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       email: req.body.email
     }, {where: {id: req.body.id}})
     .then(() => {
-      res.redirect(`/user/${data.id}`)
+      res.redirect(`/user/${req.body.id}`)
     })
     .catch(err => {
       res.send("Error : " + err.message);
